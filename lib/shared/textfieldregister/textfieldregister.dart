@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 class TextFieldRegister extends StatelessWidget {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-   TextFieldRegister({required this.textonformfield,required this.textonvalidation,required Function validator,required TextEditingController controller});
+   TextFieldRegister({required this.textonformfield,required this.textonvalidation,required this.controller,  this.checkPass=false});
 String textonformfield;
 String textonvalidation;
+ bool ? checkPass ;
+ TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(color: Colors.red),
           errorBorder: OutlineInputBorder(
@@ -28,12 +31,22 @@ String textonvalidation;
           ),
         ),
           validator: (String? value) {
+          if( checkPass== true){
+            if (value == null || value.isEmpty) {
+              return 'please enter $textonvalidation';
+            }
+            else if(value.length < 6 ) {
+              return 'password is short';
+            }
+          }else{
+
             if (value == null || value.isEmpty) {
               return 'please enter $textonvalidation';
             }
             else {
               return null;
             }
+          }
           }
       ),
     );

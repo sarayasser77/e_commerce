@@ -1,16 +1,28 @@
-import 'package:e_commerce/cubit/states.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:e_commerce/cubit/userCubit/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubit/cubit.dart';
-class HomePage extends StatelessWidget {
+import '../../cubit/userCubit/cubit.dart';
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CommerceCubit,CommerceState>(
            builder: (BuildContext context, state) {
               return Scaffold(
+                appBar: AppBar(
+                  leading:Icon(Icons.menu,color: Colors.orange,),
+                  toolbarHeight: 20,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                ),
              backgroundColor: Color(0xFFeeeeee).withOpacity(.99),
              bottomNavigationBar: BottomNavigationBar(
                selectedItemColor: Colors.orange,
@@ -19,7 +31,7 @@ class HomePage extends StatelessWidget {
                  BlocProvider.of<CommerceCubit>(context).changeState(index: index);
                },
                currentIndex:  BlocProvider.of<CommerceCubit>(context).currentIndex,
-               
+
                items:const [
                  BottomNavigationBarItem(icon: Icon(Icons.shop),label: "shop"),
                  BottomNavigationBarItem(icon: Icon(Icons.search_outlined),label: "Explore"),
@@ -31,10 +43,20 @@ class HomePage extends StatelessWidget {
                child: Padding(
                  padding: const EdgeInsets.all(8.0),
                  child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
-                     Align(
-                         alignment: Alignment.topLeft
-                         ,child: Text('Eraa store',style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.w900),)),
+                     DefaultTextStyle(
+                       textHeightBehavior: TextHeightBehavior(applyHeightToLastDescent: true),
+                       style: TextStyle(fontSize: 30,color: Colors.black),
+                       child: AnimatedTextKit(
+                         totalRepeatCount: 2,
+                         animatedTexts: [
+                           WavyAnimatedText('Hello at'),
+                           WavyAnimatedText('Eraa store'),
+                         ],
+                         isRepeatingAnimation: true,
+                       ),
+                     ),
                    SizedBox(height: 5,),
                    Expanded(
                      flex: 3,
