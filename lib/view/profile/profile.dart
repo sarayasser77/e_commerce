@@ -46,9 +46,9 @@ class ProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-             const CircleAvatar(
+              CircleAvatar(
                 radius: 50,
-                backgroundColor: Colors.orange ,
+                backgroundColor: Colors.blueGrey.withOpacity(.5) ,
               ),
               SizedBox(height: 10,),
               Text(cubit.userModel!.name.toString(),style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),

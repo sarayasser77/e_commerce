@@ -13,8 +13,15 @@ class ContainerProfileScreen extends StatelessWidget {
       padding:const EdgeInsets.only(left: 20),
       height: screenHeight*.08,
       width: screenWidth*.8,
-      decoration: const BoxDecoration(
-        color: Colors.orange,
+      decoration:  BoxDecoration(
+        gradient:LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors:[
+          Colors.deepOrange.shade400,
+          Colors.orange
+        ]
+        ),
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomRight: Radius.circular(20))
       ),
       child: Row(

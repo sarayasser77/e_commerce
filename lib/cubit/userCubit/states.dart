@@ -7,3 +7,16 @@ class GetUserDataFaildState extends CommerceState{
   String? message;
   GetUserDataFaildState(this.message){}
 }
+class GetBannerSuccessState extends CommerceState{}
+class GetBannerLoadingState extends CommerceState{}
+class GetBannerFailureState extends CommerceState{
+  String?error;
+  GetBannerFailureState(this.error){}
+}
+class GetCategorySuccessState extends CommerceState{}
+class GetCategoryLoadingState extends CommerceState{}
+class GetCategoryFailureState extends CommerceState{
+}
+class GetProductsSuccessState extends CommerceState{}
+class GetProductsLoadingState extends CommerceState{}
+class GetProductsFailureState extends CommerceState{}
