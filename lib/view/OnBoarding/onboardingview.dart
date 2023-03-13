@@ -1,3 +1,4 @@
+import 'package:e_commerce/view/login/loginpage.dart';
 import 'package:e_commerce/view/register/registerView.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -19,11 +20,11 @@ class _BoardingScreenState extends State<BoardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,elevation: 0,toolbarHeight: 15,leading: SizedBox(),),
+        backgroundColor: Colors.transparent,elevation: 0,toolbarHeight: 15,leading: const SizedBox(),),
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children:
@@ -33,15 +34,15 @@ class _BoardingScreenState extends State<BoardingScreen> {
               child: InkWell(
                 onTap: ()
                 {
-                  Navigator.pushReplacement(context, PageTransition(child: RegisterView(), type: PageTransitionType.leftToRightWithFade,duration: Duration(seconds: 1)));
+                  Navigator.pushReplacement(context, PageTransition(child: LoginView(), type: PageTransitionType.leftToRightWithFade,duration: const Duration(seconds: 1)));
                 },
-                child: Text("Skip",style: TextStyle(color: Colors.orange,fontWeight: FontWeight.bold,fontSize: 20),),
+                child: const Text("Skip",style: TextStyle(color: Colors.orange,fontWeight: FontWeight.bold,fontSize: 20),),
               ),
             ),
             Expanded(
               child: Container(
                 // color: Colors.grey,
-                margin: EdgeInsets.symmetric(vertical: 12.5),
+                margin: const EdgeInsets.symmetric(vertical: 12.5),
                 child: PageView.builder(
                   controller: pageController,
                   itemCount: boardingItems.length,
@@ -56,11 +57,11 @@ class _BoardingScreenState extends State<BoardingScreen> {
                       children:
                       [
                         Image.asset(boardingItems[index].image,fit: BoxFit.fill,height: 400,),
-                        SizedBox(height: 10,),
-                        Text(boardingItems[index].title,style: TextStyle(color: Colors.orange,fontWeight: FontWeight.bold,fontSize: 19),),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 10,),
+                        Text(boardingItems[index].title,style: const TextStyle(color: Colors.orange,fontWeight: FontWeight.bold,fontSize: 19),),
+                        const SizedBox(height: 20,),
                         Center(
-                          child:Text(boardingItems[index].description,style: TextStyle(color: Colors.grey)),
+                          child:Text(boardingItems[index].description,style: const TextStyle(color: Colors.grey)),
                         )
                       ],
                     );
@@ -98,10 +99,10 @@ class _BoardingScreenState extends State<BoardingScreen> {
                   }
                   else
                   {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterView()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginView()));
                   }
                 },
-                child:  Text("Next",style: TextStyle(color: Colors.orange,fontWeight: FontWeight.bold,fontSize: 20),),
+                child:  const Text("Next",style: TextStyle(color: Colors.orange,fontWeight: FontWeight.bold,fontSize: 20),),
               ),
             )
           ],

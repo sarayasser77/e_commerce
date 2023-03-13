@@ -3,6 +3,8 @@ import 'package:e_commerce/cubit/loginCubit/logincubit.dart';
 import 'package:e_commerce/cubit/registerCubit/registercubit.dart';
 import 'package:e_commerce/shared/blockobserver/blockobserver.dart';
 import 'package:e_commerce/view/OnBoarding/onboardingview.dart';
+import 'package:e_commerce/view/allproducts/allproducts.dart';
+import 'package:e_commerce/view/categoryview/categoryview.dart';
 import 'package:e_commerce/view/homepage/HomePage.dart';
 import 'package:e_commerce/view/layoutscreen/layoutscreen.dart';
 import 'package:e_commerce/view/login/loginpage.dart';
@@ -34,7 +36,9 @@ class MyApp extends StatelessWidget {
           "BoardingScreen":(context)=>BoardingScreen(),
           "RegisterScreen":(context)=>RegisterView()
         },
-        home:LayoutScreen()
+        home:LoginView()
+        //BoardingScreen()
+        //LayoutScreen()
       ),
     );
   }

@@ -18,6 +18,7 @@ class LayoutScreen extends StatelessWidget {
         builder: (context,state){
           return Scaffold(
             bottomNavigationBar: BottomNavigationBar(
+              elevation: 10,
               selectedItemColor: Colors.blueGrey,
               unselectedItemColor: Colors.grey,
               type: BottomNavigationBarType.fixed,

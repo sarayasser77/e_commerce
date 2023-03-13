@@ -24,7 +24,7 @@ class LoginCubit extends Cubit<LoginState>{
         if( data['status'] == true )
         {
           debugPrint("Response is : $data");
-          emit(LoginSuccessState());
+          emit(LoginSuccessState(data['message']));
         }
         else
         {

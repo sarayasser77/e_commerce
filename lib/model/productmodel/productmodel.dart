@@ -7,6 +7,8 @@ class ProductModel{
   String?name;
   String?description;
 
+
+
 ProductModel.fromjson({required Map<String,dynamic>data}){
   id=data['id'];
   price=data['price'];
@@ -16,5 +18,4 @@ ProductModel.fromjson({required Map<String,dynamic>data}){
   name=data['name'];
   description=data['description'];
 }
-
 }

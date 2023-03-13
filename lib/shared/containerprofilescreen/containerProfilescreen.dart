@@ -14,21 +14,27 @@ class ContainerProfileScreen extends StatelessWidget {
       height: screenHeight*.08,
       width: screenWidth*.8,
       decoration:  BoxDecoration(
-        gradient:LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors:[
-          Colors.deepOrange.shade400,
-          Colors.orange
-        ]
-        ),
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomRight: Radius.circular(20))
+        border: Border.all(color: Colors.white),
+        color: Colors.transparent.withOpacity(.02),
+        // gradient:LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors:[
+        //   Colors.orange,
+        //   Colors.orange.shade300.withOpacity(.5)
+        // ]
+        // ),
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),bottomRight: Radius.circular(20))
       ),
       child: Row(
         children: [
-          Icon(icon),
+          Container(
+              height: 50,
+              width: 50,
+              color: Colors.grey.shade50,
+              child: Icon(icon)),
         const  SizedBox(width: 30,),
-          Text(txt,style:const TextStyle(color: Colors.white,fontSize: 17),)
+          Text(txt,style:const TextStyle(color: Colors.black,fontSize: 17),)
         ],
       ),
     );

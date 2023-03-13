@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 class TextFieldRegister extends StatelessWidget {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-   TextFieldRegister({required this.textonformfield,required this.textonvalidation,required this.controller,  this.checkPass=false});
+   TextFieldRegister({required this.textonformfield,required this.textonvalidation,required this.controller,
+     this.checkPass=false,required this.isobsecure});
 String textonformfield;
 String textonvalidation;
  bool ? checkPass ;
+ bool isobsecure;
  TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
@@ -12,6 +14,7 @@ String textonvalidation;
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         controller: controller,
+        obscureText: isobsecure,
         decoration: InputDecoration(
           errorStyle: TextStyle(color: Colors.red),
           errorBorder: OutlineInputBorder(
