@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:e_commerce/constants/endpoint/endpoints.dart';
 import 'package:e_commerce/cubit/loginCubit/statelogin.dart';
+import 'package:e_commerce/shared/Network/localnetwork.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import'package:http/http.dart' as http;
@@ -23,12 +24,14 @@ class LoginCubit extends Cubit<LoginState>{
         var data = jsonDecode(response.body);
         if( data['status'] == true )
         {
+          await CacheNetwork.insertToCache(key: "password", value: password);
           debugPrint("Response is : $data");
           emit(LoginSuccessState(data['message']));
         }
         else
         {
           debugPrint("Response is : $data");
+         await CacheNetwork.insertToCache(key: 'token', value: data['data']['token']);
           emit(LoginFailureState(data['message']));
         }
       }

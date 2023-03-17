@@ -32,7 +32,8 @@ class ContainerProfileScreen extends StatelessWidget {
               height: 50,
               width: 50,
               color: Colors.grey.shade50,
-              child: Icon(icon)),
+              child: Icon(icon)
+          ),
         const  SizedBox(width: 30,),
           Text(txt,style:const TextStyle(color: Colors.black,fontSize: 17),)
         ],

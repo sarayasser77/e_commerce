@@ -1,8 +1,8 @@
 class ProductModel{
   int?id;
-  dynamic?price;
-  dynamic?oldPrice;
-  dynamic?discount;
+  dynamic price;
+  dynamic oldPrice;
+  dynamic discount;
   String?image;
   String?name;
   String?description;

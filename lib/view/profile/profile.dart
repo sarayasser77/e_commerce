@@ -1,9 +1,14 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:e_commerce/cubit/userCubit/states.dart';
 import 'package:e_commerce/shared/containerprofilescreen/containerProfilescreen.dart';
+import 'package:e_commerce/view/cartscreen/cartscreen.dart';
+import 'package:e_commerce/view/changepassword/changepassword.dart';
+import 'package:e_commerce/view/favscreen/favouriteScreen.dart';
+import 'package:e_commerce/view/updatedata/updatedata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'dart:io';
 import '../../cubit/userCubit/cubit.dart';
 
@@ -110,13 +115,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height:10),
                 Text(cubit.userModel!.email.toString(),style: const TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
                 const SizedBox(height: 30,),
-                ContainerProfileScreen(txt: 'Update data', icon:Icons.person,),
+                GestureDetector(
+                    onTap: (){
+                      Navigator.push(context,PageTransition(child: UpdateUserDataScreen(), type: PageTransitionType.fade,duration:const Duration(seconds: 2)));
+                    },
+                    child: ContainerProfileScreen(txt: 'Update Data', icon:Icons.person,)),
+                SizedBox(height: 15,),
+                GestureDetector(
+                    onTap: (){
+                      Navigator.push(context,PageTransition(child: ChangePasswordScreen(), type: PageTransitionType.fade,duration:const Duration(seconds: 2)));
+                    },
+                    child: ContainerProfileScreen(txt: 'Change password', icon:Icons.password,)),
                 const SizedBox(height: 15,),
-                ContainerProfileScreen(txt: 'orders', icon:Icons.shopping_basket,),
+                GestureDetector(
+                    onTap:(){
+                      Navigator.push(context, PageTransition(child: Carts(), type: PageTransitionType.leftToRightWithFade,duration:const Duration(seconds: 2)));
+                    } ,
+                    child: ContainerProfileScreen(txt: 'orders', icon:Icons.shopping_basket,)),
                 const SizedBox(height: 15,),
-                ContainerProfileScreen(txt: 'favourite', icon:Icons.favorite,),
+                GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, PageTransition(child: Favourites(), type: PageTransitionType.leftToRightWithFade,duration:const Duration(seconds: 2)));
+                    },
+                    child: ContainerProfileScreen(txt: 'favourite', icon:Icons.favorite,)),
                 const SizedBox(height: 15,),
-                ContainerProfileScreen(txt: 'logout', icon:Icons.logout,)
+                GestureDetector(
+                    onTap: (){
+                      showDialog(context: context,
+                          builder: (context)=>AlertDialog(
+                        content: Container(
+                          height: 100,
+                          width: 100,
+                          child: Column(
+                            children: [
+                              Text('Are you sure to log out ?'),
+                              SizedBox(height: 20,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children:   [
+                                  ActionChip(
+                                   backgroundColor: Colors.orange,
+                                    label: const Text('      yes      ',style: TextStyle(color: Colors.white),),
+                                  onPressed: (){
+                                     Navigator.pop(context);
+},
+                                  ),
+                                  SizedBox(width: 10,),
+                                  ActionChip(
+                                    backgroundColor: Colors.orange,
+                                    label: const Text('       No       ',style: TextStyle(color: Colors.white),
+
+                                  ),
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              )
+
+                            ],
+                          ),
+                        ),
+                      ));
+                    },
+                    child: ContainerProfileScreen(txt: 'logout', icon:Icons.logout,)),
+                SizedBox(height: 10,),
 
 
               ],

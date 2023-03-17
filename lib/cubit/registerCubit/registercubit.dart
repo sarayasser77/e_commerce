@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
+import '../../shared/Network/localnetwork.dart';
+
 class RegisterCubit extends Cubit<RegisterState>{
   RegisterCubit():super(RegisterInitialState());
   static RegisterCubit getInstance(context)=>BlocProvider.of(context);
@@ -28,6 +30,7 @@ class RegisterCubit extends Cubit<RegisterState>{
         var data = jsonDecode(response.body);
         if( data['status'] == true )
         {
+          await CacheNetwork.insertToCache(key: "password", value: password);
           debugPrint("Response is : $data");
           emit(RegisterSuccessState());
         }

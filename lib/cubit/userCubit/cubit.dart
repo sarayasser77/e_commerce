@@ -12,13 +12,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart'as http;
 import 'package:http/http.dart';
 
+import '../../constants/constants/token.dart';
 import '../../model/categoryModel/categorymodel.dart';
+import '../../shared/Network/localnetwork.dart';
+import '../../view/cartscreen/cartscreen.dart';
+import '../../view/favscreen/favouriteScreen.dart';
 class CommerceCubit extends Cubit<CommerceState> {
 CommerceCubit():super (InitialState());
   static CommerceCubit getInstance(BuildContext context){
     return BlocProvider.of(context);
   }
-  List<Widget> screens=[HomePage(),CategoryView(),HomePage(),HomePage(),ProfileScreen()];
+  List<Widget> screens=[HomePage(),CategoryView(),Favourites(),Carts(),ProfileScreen()];
   int currentIndex=0;
   void changeState({required int index}){
     currentIndex=index;
@@ -136,6 +140,8 @@ void getBanner()async{
       emit(GetProductsFailureState());
     }
   }
+
+  //favourites
   Set<String> favouriteStatus={};
   List<ProductModel> favoritesData = [];
   Future<void> getFavorites() async {
@@ -146,7 +152,7 @@ void getBanner()async{
         headers:
         {
           'lang' : 'en',
-          'Authorization' : "CKsUN1oWrv8wQFYz9IpRKtZVModLjtatjdiSRIJFJZB8pAMBhcQOrwURYdc7pgUW05YBMp",
+          'Authorization' : "CKsUN1oWrv8wQFYz9IpRKtZVModLjtatjdiSRIJFJZB8pAMBhcQOrwURYdc7pgUW05YBMp"
         }
     );
     var responseBody = jsonDecode(response.body);
@@ -155,7 +161,7 @@ void getBanner()async{
       for( var item in responseBody['data']['data'] )
       {
         favouriteStatus.add(item['product']['id'].toString());
-        favoritesData.add(ProductModel.fromjson(data: item['products']));
+        favoritesData.add(ProductModel.fromjson(data: item['product']));
       }
       debugPrint("Favorites number is : ${responseBody['data']['total']}");
       debugPrint("Favorites Status Number is : ${favouriteStatus.length}");
@@ -170,6 +176,7 @@ void getBanner()async{
   }
 
   void addOrRemoveToOrFromFavorites({required String productID}) async {
+    // عشان يحصل ريفرش في صفحه HomeScreen
     favouriteStatus.contains(productID) == true ? favouriteStatus.remove(productID) : favouriteStatus.add(productID);
     emit(GetFavoritesLoadingState());
     Response response = await http.post(
@@ -196,30 +203,130 @@ void getBanner()async{
     }
   }
 
-  // void changePassword({required String newPassword}) async {
-  //   emit(ChangePasswordLoadingState());
-  //   String? currentPassword = await CacheNetwork.getCacheData(key: 'password');
-  //   Response response = await http.post(
-  //       Uri.parse("https://student.valuxapps.com/api/change-password"),
-  //       body: {
-  //         'current_password' : currentPassword,
-  //         'new_password' : newPassword
-  //       },
-  //       headers: {
-  //         'Authorization' : token!
-  //       }
-  //   );
-  //   var responseBody = jsonDecode(response.body);
-  //   if( responseBody['status'] )
-  //   {
-  //     CacheNetwork.insertToCache(key: "password", value: newPassword);
-  //     password = newPassword;
-  //     emit(ChangePasswordSuccessState());
-  //   }
-  //   else
-  //   {
-  //     emit(FailedToChangePasswordState());
-  //   }
-  // }
 
+
+  //cart
+  Set<String> CartStatus={};
+  List<ProductModel> CartsData = [];
+  Future<void> getCart() async {
+    CartsData.clear();
+    emit(GetCartsLoadingState());
+    Response response = await http.get(
+        Uri.parse("https://student.valuxapps.com/api/carts"),
+        headers:
+        {
+          'lang' : 'en',
+          'Authorization' : "CKsUN1oWrv8wQFYz9IpRKtZVModLjtatjdiSRIJFJZB8pAMBhcQOrwURYdc7pgUW05YBMp"
+        }
+    );
+    var responseBody = jsonDecode(response.body);
+    if( responseBody['status'] == true )
+    {
+      for( var item in responseBody['data']['cart_items'] )
+      {
+        CartStatus.add(item['product']['id'].toString());
+        CartsData.add(ProductModel.fromjson(data: item['product']));
+      }
+      debugPrint("cart number is : ${responseBody['data']['total']}");
+      debugPrint("cart Status Number is : ${CartStatus.length}");
+      emit(GetCartsSuccessState());
+    }
+    else
+    {
+
+      emit(GetCartsFailureState());
+    }
+  }
+
+  void addOrRemoveToOrFromCart({required String productID}) async {
+    // عشان يحصل ريفرش في صفحه HomeScreen
+    CartStatus.contains(productID) == true ? CartStatus.remove(productID) : CartStatus.add(productID);
+    emit(GetFavoritesLoadingState());
+    Response response = await http.post(
+        Uri.parse("https://student.valuxapps.com/api/carts"),
+        headers:
+        {
+          'lang' : 'en',
+          'Authorization' : "CKsUN1oWrv8wQFYz9IpRKtZVModLjtatjdiSRIJFJZB8pAMBhcQOrwURYdc7pgUW05YBMp"
+        },
+        body:
+        {
+          "product_id": productID
+        }
+    );
+    var responseBody = jsonDecode(response.body);
+    if( responseBody['status'] == true )
+    {
+      await getCart();
+      emit(AddOrRemoveFromCartSuccessState());
+    }
+    else
+    {
+      emit(AddOrRemoveFromCartFailureState());
+    }
+  }
+  //search
+  List<ProductModel> productFilter=[];
+  void filterdData ({required String product}){
+    productFilter=productData.where((element) {
+      return element.name.toString().toLowerCase().contains(product.toLowerCase());
+    }).toList();
+    emit(FilterProductsSuccessState());
+  }
+
+  void changePassword({required String newPassword}) async {
+    emit(ChangePasswordLoadingState());
+    String? currentPassword = await CacheNetwork.getCacheData(key: 'password');
+    Response response = await http.post(
+        Uri.parse("https://student.valuxapps.com/api/change-password"),
+        body: {
+          'current_password' : currentPassword,
+          'new_password' : newPassword
+        },
+        headers: {
+          'Authorization' : "CKsUN1oWrv8wQFYz9IpRKtZVModLjtatjdiSRIJFJZB8pAMBhcQOrwURYdc7pgUW05YBMp"
+        }
+    );
+    var responseBody = jsonDecode(response.body);
+    if( responseBody['status'] )
+    {
+      CacheNetwork.insertToCache(key: "password", value: newPassword);
+      password = newPassword;
+      emit(ChangePasswordSuccessState());
+    }
+    else
+    {
+      emit(FailedToChangePasswordState());
+    }
+  }
+
+  void updateUserData({required String phone,required String name}) async {
+    emit(UpdateUserDataLoadingState());
+    String? currentPassword = await CacheNetwork.getCacheData(key: 'password');
+    Response response = await http.put(
+        Uri.parse("https://student.valuxapps.com/api/update-profile"),
+        body:
+        {
+          'name' : name,
+          'email' : userModel!.email,
+          'password' : currentPassword,
+          'phone' : phone,
+          'image' : userModel!.image,
+        },
+        headers:
+        {
+          'Authorization' : "CKsUN1oWrv8wQFYz9IpRKtZVModLjtatjdiSRIJFJZB8pAMBhcQOrwURYdc7pgUW05YBMp"
+        }
+    );
+    var responseBody = jsonDecode(response.body);
+    if( responseBody['status'] )
+    {
+      userModel = UserModel.fromJson(responseBody['data']);
+      emit(UpdateUserDataSuccessState());
+    }
+    else
+    {
+      emit(FailedToUpdateUserDataState());
+    }
+  }
 }
